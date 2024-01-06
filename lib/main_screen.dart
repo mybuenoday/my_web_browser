@@ -22,6 +22,31 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MY WEB BROWSER'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.add),
+          ),
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              print(value);
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem<String>(
+                value: 'https://www.linkedin.com/in/yoonjikimkr/',
+                child: Text('LinkedIn'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'https://westpl4.tistory.com/',
+                child: Text('Blog'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'https://github.com/mybuenoday',
+                child: Text('Github'),
+              ),
+            ],
+          ),
+        ],
       ),
       body: const WebView(
         initialUrl: 'https://flutter.dev',
