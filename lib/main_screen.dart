@@ -50,12 +50,21 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: WebView(
-        // url 변수가 들어왔으니까 const를 제거
-        initialUrl: 'https://flutter.dev',
-        onWebViewCreated: (controller) {
-          _webViewController = controller; // 초기화
+      body: WillPopScope(
+        onWillPop: () async {
+          if (await _webViewController.canGoBack()) {
+            await _webViewController.goBack(); // WebView 내에서 뒤로 가기.
+            return false; // 시스템 레벨의 뒤로 가기[앱 종료]를 하지 않도록.
+          }
+          return true; // 시스템 레벨에서 뒤로 가기[앱 종료]
         },
+        child: WebView(
+          initialUrl: 'https://flutter.dev',
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (controller) {
+            _webViewController = controller; // 초기화
+          },
+        ),
       ),
     );
   }
