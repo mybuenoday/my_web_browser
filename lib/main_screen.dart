@@ -11,6 +11,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  late WebViewController _webViewController; // 늦은 초기화를 위해.
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           PopupMenuButton<String>(
             onSelected: (value) {
-              print(value);
+              _webViewController.loadUrl(value);
             },
             itemBuilder: (context) => [
               const PopupMenuItem<String>(
@@ -48,8 +50,12 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: const WebView(
+      body: WebView(
+        // url 변수가 들어왔으니까 const를 제거
         initialUrl: 'https://flutter.dev',
+        onWebViewCreated: (controller) {
+          _webViewController = controller; // 초기화
+        },
       ),
     );
   }
